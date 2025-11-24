@@ -1,177 +1,234 @@
+"use client"
+
+import { DashboardLayout } from "@/components/dashboard-layout"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { MarketplaceCard } from "@/components/marketplace-card"
-import { MarketplaceSidebar } from "@/components/marketplace-sidebar"
-import { MarketplaceSortBar } from "@/components/marketplace-sort-bar"
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 
-// Dummy data
-const products = [
-  {
-    id: "1",
-    title: "Wireless Noise-Canceling Headphones",
-    price: 299.99,
-    rating: 4.8,
-    reviews: 1240,
-    image: "/placeholder.svg?height=400&width=400",
-    category: "Electronics",
-    isNew: true,
-  },
-  {
-    id: "2",
-    title: "Ergonomic Office Chair",
-    price: 199.5,
-    rating: 4.5,
-    reviews: 850,
-    image: "/placeholder.svg?height=400&width=400",
-    category: "Home & Garden",
-  },
-  {
-    id: "3",
-    title: "Smart Fitness Watch",
-    price: 149.0,
-    rating: 4.2,
-    reviews: 320,
-    image: "/placeholder.svg?height=400&width=400",
-    category: "Electronics",
-  },
-  {
-    id: "4",
-    title: "Organic Cotton T-Shirt",
-    price: 24.99,
-    rating: 4.6,
-    reviews: 150,
-    image: "/placeholder.svg?height=400&width=400",
-    category: "Clothing",
-  },
-  {
-    id: "5",
-    title: "Professional DSLR Camera",
-    price: 1299.0,
-    rating: 4.9,
-    reviews: 2100,
-    image: "/placeholder.svg?height=400&width=400",
-    category: "Electronics",
-  },
-  {
-    id: "6",
-    title: "Stainless Steel Water Bottle",
-    price: 35.0,
-    rating: 4.7,
-    reviews: 500,
-    image: "/placeholder.svg?height=400&width=400",
-    category: "Sports",
-    isNew: true,
-  },
-  {
-    id: "7",
-    title: "Mechanical Gaming Keyboard",
-    price: 129.99,
-    rating: 4.8,
-    reviews: 980,
-    image: "/placeholder.svg?height=400&width=400",
-    category: "Electronics",
-  },
-  {
-    id: "8",
-    title: "Yoga Mat with Carrying Strap",
-    price: 45.0,
-    rating: 4.4,
-    reviews: 320,
-    image: "/placeholder.svg?height=400&width=400",
-    category: "Sports",
-  },
-]
+export default function AuctionsPage() {
+  // Şimdilik örnek bakiye bilgileri (dummy)
+  const userBalance = "50.000 TL"
+  const lockedAmount = "12.500 TL"
+  const availableBalance = "37.500 TL"
 
-export default function MarketplacePage() {
+  // Şimdilik tek bir örnek ihale (dummy)
+  const auctions = [
+    {
+      id: "AL-2025-001",
+      title: "Forklift Lastik Lotu - 1.2 Ton",
+      category: "Forklift",
+      subCategory: "Dolgu / Çıkma",
+      size: "7.00-12",
+      brand: "Michelin",
+      type: "Dolgu - Radyal",
+      treadDepth: "%60",
+      sidewall: "Sağlam",
+      casing: "Kaplamaya Uygun",
+      totalKg: "1.200 kg",
+      startPrice: "10.000 TL",
+      currentPrice: "18.500 TL",
+      bidStep: "500 TL",
+      buyNowPrice: "25.000 TL",
+      timeLeft: "02:31:45",
+      status: "Live",
+      lastBid: "18.500 TL (Siz / Diğer Kullanıcı)",
+    },
+  ]
+
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-30 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-          <div className="flex items-center gap-2 font-bold text-xl">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              M
-            </div>
-            Marketplace
-          </div>
-          <nav className="hidden gap-6 md:flex">
-            <a href="#" className="text-sm font-medium hover:underline underline-offset-4">
-              Home
-            </a>
-            <a href="#" className="text-sm font-medium hover:underline underline-offset-4">
-              Categories
-            </a>
-            <a href="#" className="text-sm font-medium hover:underline underline-offset-4">
-              Deals
-            </a>
-            <a href="#" className="text-sm font-medium hover:underline underline-offset-4">
-              Sell
-            </a>
-          </nav>
-          <div className="flex items-center gap-4">
-            <a href="#" className="text-sm font-medium hover:underline underline-offset-4">
-              Sign In
-            </a>
-            <Button size="sm">Get Started</Button>
-          </div>
+    <DashboardLayout>
+      <div className="space-y-6">
+        {/* Sayfa başlığı */}
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">İhaleler</h1>
+          <p className="text-sm text-muted-foreground">
+            Mevcut açık artırmaları görüntüleyin, bakiye durumunuza göre teklif verin veya hemen satın alın.
+          </p>
         </div>
-      </header>
 
-      <main className="container px-4 py-6 md:px-6 md:py-8">
-        <div className="flex flex-col gap-8 lg:flex-row">
-          {/* Sidebar - Hidden on mobile, shown in sheet via SortBar */}
-          <aside className="hidden w-64 shrink-0 lg:block">
-            <div className="sticky top-24">
-              <MarketplaceSidebar />
+        {/* Bakiye özet kartı */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Hesap Özeti</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-4 md:grid-cols-3 text-sm">
+            <div className="space-y-1">
+              <div className="text-xs text-muted-foreground">Toplam Bakiye</div>
+              <div className="text-base font-semibold">{userBalance}</div>
             </div>
-          </aside>
-
-          <div className="flex-1 space-y-6">
-            <div className="mb-6">
-              <h1 className="text-3xl font-bold tracking-tight">All Products</h1>
-              <p className="text-muted-foreground">Showing 1-8 of 120 products</p>
+            <div className="space-y-1">
+              <div className="text-xs text-muted-foreground">Kilitli Tutar</div>
+              <div className="text-base font-semibold">{lockedAmount}</div>
             </div>
-
-            <MarketplaceSortBar />
-
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {products.map((product) => (
-                <MarketplaceCard key={product.id} product={product} />
-              ))}
+            <div className="space-y-1">
+              <div className="text-xs text-muted-foreground">Kullanılabilir Bakiye</div>
+              <div className="text-base font-semibold">{availableBalance}</div>
             </div>
+            <p className="mt-2 text-xs text-muted-foreground md:col-span-3">
+              * Demo sürümde bakiyeler örnek olarak gösterilmektedir. Gerçek sistemde ihaleye teklif vermek için en az{" "}
+              <span className="font-semibold">Hemen Al</span> tutarı kadar bakiye bulundurmanız gerekir. Bakiye aşımı,
+              geri alınamayan tek yönlü işlemler ve tüm teklif logları sistem tarafından kaydedilir.
+            </p>
+          </CardContent>
+        </Card>
 
-            <div className="mt-8 flex justify-center">
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious href="#" />
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#" isActive>
-                      1
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">2</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#">3</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationNext href="#" />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
-            </div>
-          </div>
+        {/* İhale kartları */}
+        <div className="space-y-4">
+          {auctions.map((auction) => (
+            <Card key={auction.id}>
+              <CardHeader className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <div className="space-y-1">
+                  <CardTitle>{auction.title}</CardTitle>
+                  <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+                    <span>İhale ID: {auction.id}</span>
+                    <span>•</span>
+                    <span>Kategori: {auction.category}</span>
+                    <span>•</span>
+                    <span>Alt Kategori: {auction.subCategory}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline">{auction.status}</Badge>
+                  <span className="text-xs text-muted-foreground">
+                    Kalan Süre: <span className="font-mono font-medium">{auction.timeLeft}</span>
+                  </span>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid gap-4 lg:grid-cols-[1.4fr,1.8fr]">
+                  {/* Büyük görsel alanı */}
+                  <div className="space-y-2">
+                    <div className="aspect-video w-full rounded-md bg-muted" />
+                    <p className="text-xs text-muted-foreground">
+                      Bu alan lastik lotuna ait ana görsel için ayrılmıştır. Eksper tarafından yüklenen fotoğraflar
+                      burada gösterilecektir.
+                    </p>
+                  </div>
+
+                  {/* Ürün + fiyat bilgileri */}
+                  <div className="space-y-4 text-sm">
+                    <div className="grid gap-2 md:grid-cols-2">
+                      <div className="space-y-1">
+                        <div className="text-xs text-muted-foreground">Ölçü / Ebat</div>
+                        <div className="font-medium">{auction.size}</div>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-xs text-muted-foreground">Marka</div>
+                        <div className="font-medium">{auction.brand}</div>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-xs text-muted-foreground">Tür</div>
+                        <div className="font-medium">{auction.type}</div>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-xs text-muted-foreground">Diş Kalınlığı</div>
+                        <div className="font-medium">{auction.treadDepth}</div>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-xs text-muted-foreground">Yanak Sağlamlığı</div>
+                        <div className="font-medium">{auction.sidewall}</div>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-xs text-muted-foreground">Karkas Durumu</div>
+                        <div className="font-medium">{auction.casing}</div>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-xs text-muted-foreground">Toplam KG</div>
+                        <div className="font-medium">{auction.totalKg}</div>
+                      </div>
+                    </div>
+
+                    <Separator />
+
+                    <div className="grid gap-2 md:grid-cols-3 text-sm">
+                      <div className="space-y-1">
+                        <div className="text-xs text-muted-foreground">Başlangıç Fiyatı</div>
+                        <div className="font-semibold">{auction.startPrice}</div>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-xs text-muted-foreground">Son Teklif</div>
+                        <div className="font-semibold">{auction.currentPrice}</div>
+                        <div className="text-[11px] text-muted-foreground">
+                          {auction.lastBid}
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-xs text-muted-foreground">Hemen Al Fiyatı</div>
+                        <div className="font-semibold text-primary">{auction.buyNowPrice}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <Separator />
+
+                {/* Teklif verme alanı */}
+                <div className="space-y-4">
+                  <h2 className="text-sm font-semibold">Teklif ve Satın Alma Seçenekleri</h2>
+
+                  {/* a) Miktar gir + teklif gönder */}
+                  <div className="space-y-2">
+                    <div className="flex flex-col gap-2 md:flex-row md:items-center">
+                      <div className="flex-1">
+                        <label htmlFor={`bid-amount-${auction.id}`} className="text-xs text-muted-foreground">
+                          Teklif Miktarı (TL)
+                        </label>
+                        <Input
+                          id={`bid-amount-${auction.id}`}
+                          type="number"
+                          placeholder="Örn: 19.000"
+                          className="mt-1"
+                        />
+                      </div>
+                      <Button className="md:w-40 mt-2 md:mt-6">
+                        Teklif Gönder
+                      </Button>
+                    </div>
+                    <p className="text-[11px] text-muted-foreground">
+                      Teklif gönderebilmeniz için hesabınızda en az{" "}
+                      <span className="font-medium">Hemen Al</span> tutarı kadar kullanılabilir bakiye bulunmalıdır.
+                    </p>
+                  </div>
+
+                  {/* b) Sabit arttırma butonu */}
+                  <div className="space-y-2">
+                    <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                      <div className="text-xs text-muted-foreground">
+                        Sabit artış ile mevcut teklifi artırın. Artış miktarı:{" "}
+                        <span className="font-semibold">{auction.bidStep}</span>
+                      </div>
+                      <Button variant="outline" className="md:w-56">
+                        Sabit Artış ile Teklif Ver (+{auction.bidStep})
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* c) Hemen Al butonu */}
+                  <div className="space-y-2">
+                    <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                      <div className="text-xs text-muted-foreground">
+                        Hemen Al seçeneği ile ihaleyi anında{" "}
+                        <span className="font-semibold">{auction.buyNowPrice}</span> üzerinden kazanırsınız.
+                        İşlem geri alınamaz.
+                      </div>
+                      <Button variant="default" className="md:w-40">
+                        Hemen Al
+                      </Button>
+                    </div>
+                  </div>
+
+                  <p className="text-[11px] text-muted-foreground">
+                    Tüm teklifler ve işlemler tek yönlüdür, geri alınamaz ve sistem tarafından loglanır. İhale
+                    sonlandığında kazanan teklif ve tutar, ihale detaylarında ayrıca gösterilecektir.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-      </main>
-    </div>
+      </div>
+    </DashboardLayout>
   )
 }

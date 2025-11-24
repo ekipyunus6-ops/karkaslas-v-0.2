@@ -24,18 +24,15 @@ interface DashboardLayoutProps {
 }
 
 const menuItems = [
-  { icon: LayoutDashboard, label: "Dashboard", href: "/" },
-  {
-    icon: Gavel,
-    label: "Auctions",
-    href: "/auctions",
-    submenu: ["Create", "Pending", "Live", "History"],
-  },
+  { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+  { icon: Gavel, label: "Auctions", href: "/auctions" },
+  { icon: Gavel, label: "İhale Başlat", href: "/auctions/create" },
   { icon: History, label: "Bidding History", href: "/history" },
   { icon: Wallet, label: "Financials", href: "/financials" },
   { icon: User, label: "Profile", href: "/profile" },
   { icon: HelpCircle, label: "Support", href: "/support" },
 ]
+
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
