@@ -1,6 +1,7 @@
 import { DashboardLayout } from "@/components/dashboard-layout"
+import { SummaryCards } from "@/components/summary-cards"
 import { FinancialActions } from "@/components/financial-actions"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { RecentActivity } from "@/components/recent-activity"
 
 export default function FinancialsPage() {
   return (
@@ -9,19 +10,18 @@ export default function FinancialsPage() {
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Financials</h1>
           <p className="text-sm text-muted-foreground">
-            Bakiye hareketlerinizi ve para yatırma / çekme işlemlerinizi buradan yönetebilirsiniz.
+            Bakiye özetinizi, para yatırma / çekme işlemlerinizi ve son hesap hareketlerinizi buradan yönetebilirsiniz.
           </p>
         </div>
 
-        {/* İstersen ileride ek özet kartları koyarız, şimdilik tek kart: */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Hesap İşlemleri</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <FinancialActions />
-          </CardContent>
-        </Card>
+        {/* Dashboard’tan gelen özet kartlar */}
+        <SummaryCards />
+
+        {/* Para yatır / çek kartı */}
+        <FinancialActions />
+
+        {/* Son işlemler tablosu */}
+        <RecentActivity />
       </div>
     </DashboardLayout>
   )

@@ -3,7 +3,6 @@
 import { type ReactNode, useState } from "react"
 import { cn } from "@/lib/utils"
 import {
-  LayoutDashboard,
   Gavel,
   History,
   Wallet,
@@ -24,7 +23,6 @@ interface DashboardLayoutProps {
 }
 
 const menuItems = [
-  { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
   { icon: Gavel, label: "Auctions", href: "/auctions" },
   { icon: Gavel, label: "İhale Başlat", href: "/auctions/create" },
   { icon: History, label: "Bidding History", href: "/history" },

@@ -8,12 +8,10 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 
 export default function AuctionsPage() {
-  // Şimdilik örnek bakiye bilgileri (dummy)
   const userBalance = "50.000 TL"
   const lockedAmount = "12.500 TL"
   const availableBalance = "37.500 TL"
 
-  // Şimdilik tek bir örnek ihale (dummy)
   const auctions = [
     {
       id: "AL-2025-001",
@@ -96,19 +94,22 @@ export default function AuctionsPage() {
                   </span>
                 </div>
               </CardHeader>
+
+              {/* BURASI YENİ LAYOUT */}
               <CardContent className="space-y-4">
-                <div className="grid gap-4 lg:grid-cols-[1.4fr,1.8fr]">
-                  {/* Büyük görsel alanı */}
-                  <div className="space-y-2">
-                    <div className="aspect-video w-full rounded-md bg-muted" />
-                    <p className="text-xs text-muted-foreground">
+                <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+                  {/* SOL TARAF: küçük görsel */}
+                  <div className="w-full max-w-[220px]">
+                    <div className="aspect-[3/4] w-full rounded-md bg-muted" />
+                    <p className="mt-2 text-xs text-muted-foreground">
                       Bu alan lastik lotuna ait ana görsel için ayrılmıştır. Eksper tarafından yüklenen fotoğraflar
                       burada gösterilecektir.
                     </p>
                   </div>
 
-                  {/* Ürün + fiyat bilgileri */}
-                  <div className="space-y-4 text-sm">
+                  {/* SAĞ TARAF: detay + teklif alanı */}
+                  <div className="flex-1 space-y-4 text-sm">
+                    {/* Ürün detayları */}
                     <div className="grid gap-2 md:grid-cols-2">
                       <div className="space-y-1">
                         <div className="text-xs text-muted-foreground">Ölçü / Ebat</div>
@@ -142,87 +143,87 @@ export default function AuctionsPage() {
 
                     <Separator />
 
-                    <div className="grid gap-2 md:grid-cols-3 text-sm">
-                      <div className="space-y-1">
-                        <div className="text-xs text-muted-foreground">Başlangıç Fiyatı</div>
-                        <div className="font-semibold">{auction.startPrice}</div>
+                    {/* Teklif alanı */}
+                    <div className="space-y-4">
+                      <h2 className="text-sm font-semibold">Teklif ve Satın Alma Seçenekleri</h2>
+
+                      {/* a) Miktar gir + teklif gönder */}
+                      <div className="space-y-2">
+                        <div className="flex flex-col gap-2 md:flex-row md:items-center">
+                          <div className="flex-1">
+                            <label
+                              htmlFor={`bid-amount-${auction.id}`}
+                              className="mb-1 block text-xs font-medium text-muted-foreground"
+                            >
+                              Teklif Miktarı (TL)
+                            </label>
+                            <Input
+                              id={`bid-amount-${auction.id}`}
+                              type="number"
+                              placeholder={auction.currentPrice}
+                              className="h-10"
+                            />
+                          </div>
+                          <Button className="md:w-40 mt-2 md:mt-6">
+                            Teklif Gönder
+                          </Button>
+                        </div>
+                        <p className="text-[11px] text-muted-foreground">
+                          Teklif gönderebilmeniz için hesabınızda en az{" "}
+                          <span className="font-medium">Hemen Al</span> tutarı kadar kullanılabilir bakiye bulunmalıdır.
+                        </p>
                       </div>
-                      <div className="space-y-1">
-                        <div className="text-xs text-muted-foreground">Son Teklif</div>
-                        <div className="font-semibold">{auction.currentPrice}</div>
-                        <div className="text-[11px] text-muted-foreground">
-                          {auction.lastBid}
+
+                      {/* b) Sabit arttırma */}
+                      <div className="space-y-2">
+                        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                          <div className="text-xs text-muted-foreground">
+                            Sabit artış ile mevcut teklifi artırın. Artış miktarı:{" "}
+                            <span className="font-semibold">{auction.bidStep}</span>
+                          </div>
+                          <Button variant="outline" className="md:w-56">
+                            Sabit Artış ile Teklif Ver (+{auction.bidStep})
+                          </Button>
                         </div>
                       </div>
-                      <div className="space-y-1">
-                        <div className="text-xs text-muted-foreground">Hemen Al Fiyatı</div>
-                        <div className="font-semibold text-primary">{auction.buyNowPrice}</div>
+
+                      {/* c) Hemen Al */}
+                      <div className="space-y-2">
+                        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                          <div className="text-xs text-muted-foreground">
+                            Hemen Al seçeneği ile ihaleyi anında{" "}
+                            <span className="font-semibold">{auction.buyNowPrice}</span> üzerinden kazanırsınız.
+                            İşlem geri alınamaz.
+                          </div>
+                          <Button variant="default" className="md:w-40">
+                            Hemen Al
+                          </Button>
+                        </div>
                       </div>
+
+                      {/* d) Mini özet kartlar */}
+                      <div className="grid gap-2 md:grid-cols-3 text-xs">
+                        <div className="space-y-1 rounded-md border bg-muted/40 p-2">
+                          <div className="text-[11px] text-muted-foreground">Başlangıç Fiyatı</div>
+                          <div className="text-sm font-semibold">{auction.startPrice}</div>
+                        </div>
+                        <div className="space-y-1 rounded-md border bg-muted/40 p-2">
+                          <div className="text-[11px] text-muted-foreground">Son Teklif</div>
+                          <div className="text-sm font-semibold">{auction.currentPrice}</div>
+                          <p className="text-[10px] text-muted-foreground">{auction.lastBid}</p>
+                        </div>
+                        <div className="space-y-1 rounded-md border bg-muted/40 p-2">
+                          <div className="text-[11px] text-muted-foreground">Hemen Al Fiyatı</div>
+                          <div className="text-sm font-semibold">{auction.buyNowPrice}</div>
+                        </div>
+                      </div>
+
+                      <p className="text-[11px] text-muted-foreground">
+                        Tüm teklifler ve işlemler tek yönlüdür, geri alınamaz ve sistem tarafından loglanır. İhale
+                        sonlandığında kazanan teklif ve tutar, ihale detaylarında ayrıca gösterilecektir.
+                      </p>
                     </div>
                   </div>
-                </div>
-
-                <Separator />
-
-                {/* Teklif verme alanı */}
-                <div className="space-y-4">
-                  <h2 className="text-sm font-semibold">Teklif ve Satın Alma Seçenekleri</h2>
-
-                  {/* a) Miktar gir + teklif gönder */}
-                  <div className="space-y-2">
-                    <div className="flex flex-col gap-2 md:flex-row md:items-center">
-                      <div className="flex-1">
-                        <label htmlFor={`bid-amount-${auction.id}`} className="text-xs text-muted-foreground">
-                          Teklif Miktarı (TL)
-                        </label>
-                        <Input
-                          id={`bid-amount-${auction.id}`}
-                          type="number"
-                          placeholder="Örn: 19.000"
-                          className="mt-1"
-                        />
-                      </div>
-                      <Button className="md:w-40 mt-2 md:mt-6">
-                        Teklif Gönder
-                      </Button>
-                    </div>
-                    <p className="text-[11px] text-muted-foreground">
-                      Teklif gönderebilmeniz için hesabınızda en az{" "}
-                      <span className="font-medium">Hemen Al</span> tutarı kadar kullanılabilir bakiye bulunmalıdır.
-                    </p>
-                  </div>
-
-                  {/* b) Sabit arttırma butonu */}
-                  <div className="space-y-2">
-                    <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                      <div className="text-xs text-muted-foreground">
-                        Sabit artış ile mevcut teklifi artırın. Artış miktarı:{" "}
-                        <span className="font-semibold">{auction.bidStep}</span>
-                      </div>
-                      <Button variant="outline" className="md:w-56">
-                        Sabit Artış ile Teklif Ver (+{auction.bidStep})
-                      </Button>
-                    </div>
-                  </div>
-
-                  {/* c) Hemen Al butonu */}
-                  <div className="space-y-2">
-                    <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                      <div className="text-xs text-muted-foreground">
-                        Hemen Al seçeneği ile ihaleyi anında{" "}
-                        <span className="font-semibold">{auction.buyNowPrice}</span> üzerinden kazanırsınız.
-                        İşlem geri alınamaz.
-                      </div>
-                      <Button variant="default" className="md:w-40">
-                        Hemen Al
-                      </Button>
-                    </div>
-                  </div>
-
-                  <p className="text-[11px] text-muted-foreground">
-                    Tüm teklifler ve işlemler tek yönlüdür, geri alınamaz ve sistem tarafından loglanır. İhale
-                    sonlandığında kazanan teklif ve tutar, ihale detaylarında ayrıca gösterilecektir.
-                  </p>
                 </div>
               </CardContent>
             </Card>

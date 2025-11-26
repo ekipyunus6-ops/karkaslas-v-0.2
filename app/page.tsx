@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, LayoutDashboard, LogIn } from "lucide-react"
+import { ArrowRight, Gavel, LogIn } from "lucide-react"
 
 export default function HomePage() {
   return (
@@ -24,9 +24,9 @@ export default function HomePage() {
                 Giriş / Kayıt
               </Button>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/auctions">
               <Button size="sm" className="gap-2">
-                <LayoutDashboard className="h-4 w-4" />
+                <Gavel className="h-4 w-4" />
                 Demo Dashboard
               </Button>
             </Link>
@@ -56,9 +56,9 @@ export default function HomePage() {
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/auctions">
               <Button variant="outline" size="lg" className="gap-2">
-                Demo Dashboard
+                İhaleleri gör
               </Button>
             </Link>
           </div>
